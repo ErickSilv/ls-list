@@ -1,8 +1,10 @@
 #include "list.h"
 
-
+using value_type = T;
+using pointer = T *;
+using reference = T &;
 // ================================================================== //
-// ====================== Iterators methods ========================= //
+// ====================== const_iterators methods ========================= //
 
 /*! The  *it operator.
  *  Supports: *it = XXXX or XXXX = *it.
@@ -18,7 +20,7 @@ typename T::value_type  & operator*()
 /*! The ++it operator.
  *  \return The calling object.
  */
-self_type operator++()
+const_iterator operator++()
 {
     m_ptr = m_ptr->next;
     return *this;
@@ -27,7 +29,7 @@ self_type operator++()
 /*! The it++ operator.
  *  \return The calling object.
  */
-self_type operator++(int)
+const_iterator operator++(int)
 {
     self_type temp = *this;
     m_ptr = m_ptr->next;
@@ -37,7 +39,7 @@ self_type operator++(int)
 /*! The --it operator.
  *  \return The calling object.
  */
-self_type operator--()
+const_iterator operator--()
 {
     m_ptr = m_ptr->prev;
     return *this;
@@ -46,12 +48,14 @@ self_type operator--()
 /*! The it-- operator.
  *  \return The calling object.
  */
-self_type operator--(int)
+const_iterator operator--(int)
 {
     self_type temp = *this;
     m_ptr = m_ptr->prev;
     return temp;
 }
+
+
 
 /// The it == it2 operator.
 bool operator==( const self_type & rhs_ ) const
@@ -85,8 +89,71 @@ pointer operator->( void ) const
 /// it1 - it2
 difference_type operator-( const self_type & rhs_ ) const ;
 
-// ====================== End of Iterators methods ========================= //
+
+// ====================== End of const_iterators methods ========================= //
+// ========================================================================= //
+
+
 // ================================================================== //
+// ====================== Iterators methods ========================= //
+
+iterator operator++()
+{
+    m_ptr = m_ptr->next;
+    return *this;
+}
+
+/*! The it++ operator.
+ *  \return The calling object.
+ */
+iterator operator++(int)
+{
+    self_type temp = *this;
+    m_ptr = m_ptr->next;
+    return temp;
+}
+
+/*! The --it operator.
+ *  \return The calling object.
+ */
+iterator operator--()
+{
+    m_ptr = m_ptr->prev;
+    return *this;
+}
+
+/*! The it-- operator.
+ *  \return The calling object.
+ */
+iterator operator--(int)
+{
+    self_type temp = *this;
+    m_ptr = m_ptr->prev;
+    return temp;
+}
+
+// ==================================================
+/* Other methods that you might wanto to implement. */
+// ==================================================
+
+/// it += 3; // Go back  3 positions within the container. 
+self_type operator+=( difference_type step_ ) ;
+
+/// it -= 3; // Go back  3 positions within the container. 
+self_type operator-=(  difference_type step_ ) ;
+
+/// it->method()
+pointer operator->( void ) const
+{
+    assert( m_ptr );
+    return *m_ptr;
+}
+
+/// it1 - it2
+difference_type operator-( const self_type & rhs_ ) const ;
+
+// ====================== End of Iterators methods ========================= //
+// ========================================================================= //
 
 list()
     : m_size( 0 )
@@ -153,14 +220,18 @@ void clear ( )
 
 iterator insert( const_iterator pos, const T & value )
 {
+    //Aloca um novo nó
     node * novo ( new node ( *pos ) );
 
+    //Conecta o novo com seu antecessor e seu sucessor.
     novo->prev = pos->prev;
     novo->next = pos;
 
+    //'Desconecta' os antigos e conecta com o novo nó.
     (pos->prev)->next = novo;
     pos->prev = novo;
 
+    //Retorna um iterador pro novo nó.
     return iterator ( novo );
 }
 
@@ -169,23 +240,33 @@ iterator insert( const_iterator pos, std::initializer_list< T > ilist )
 
     auto sz = ilist.size();
 
+    /* Aplica o insert definido acima para a inserção de elemento por elemento de uma lista
+     *  de inicialização.
+     */
     for ( auto i(0ul); i < sz; ++i )
     {
-        pos_ = insert( pos_, ilist[i] );
+        pos = insert( pos, ilist[i] );
     }
 
-    return iterator ( pos_->prev );
+    //Retorna um iterador pro último elemento inserido.
+    return iterator ( pos->prev );
 
 }
 
 template < typename InItr >
 iterator insert( const_iterator pos, InItr first, InItr last )
 {
+
+    /* Aplica o insert (básico := insert( const_iterator pos, const T & value ) ) definido acima 
+     *  para a inserção de elemento por elemento de uma lista
+     *  de inicialização.
+     */
     for ( auto it( first ); it != last; ++it )
     {
         pos = insert( pos, *it );
     }
 
+    //Retorna um iterador para a posição da última inserção.
     return iterator( pos->prev );
 }
 
@@ -193,9 +274,14 @@ iterator insert( const_iterator pos, InItr first, InItr last )
 iterator erase( const_iterator pos )
 {
 
+    /* Reconecta os nós de maneira que o nó passado 
+     *  seja 'apagado'. Ou seja, o next do anterior ao pos recebe
+     *  o next do pos. E o prev do sucessor do pos recebe o prev do pos.
+     */
     (pos->prev)->next = pos->next;
     (pos->next)->prev = pos->prev;
 
+    //Retorna um iterator para o elemento que seria o após do 'apagado'.
     return iterator( pos->next );
 
 
@@ -203,10 +289,15 @@ iterator erase( const_iterator pos )
 
 iterator erase( const_iterator first, const_iterator last )
 {
+    /* Aplica o erase ( basico := erase( const_iterator pos ) )
+     *  para cada elementa intervalo.
+     */
     while ( first != last )
     {
         first = erase( first );
     }
+
+    //Retorna um iterator para o elemento que seria o após do 'apagado'.
     return iterator( last );
 }
 

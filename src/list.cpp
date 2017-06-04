@@ -118,3 +118,54 @@ bool list<T>::iterator::operator!= ( iterator & rhs ) const
     return true;
 }
 
+// =========== LIST THINGS ===========
+
+// >> list constructors
+template <typename T>
+list<T>::list()
+{
+
+}
+
+template <typename T>
+list<T>::list( typename list<T>::size_type count )
+{
+
+}
+
+template <typename T>
+template <typename InputIt>
+list<T>::list( InputIt first , InputIt last )
+{
+
+}
+
+template <typename T>
+list<T>::list( const list & other )
+{
+
+}
+
+template <typename T>
+list<T>::list( std::initializer_list<T> ilist )
+{
+
+}
+
+template <typename T>
+list<T>::~list()
+{
+
+}
+
+template <typename T>
+list<T> & list<T>::list::operator=( const list& other )
+{
+
+}
+
+template <typename T>
+list<T> & list<T>::list::operator=( std::initializer_list<T> ilist )
+{
+
+}

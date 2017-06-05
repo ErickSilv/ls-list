@@ -21,7 +21,7 @@ void print( list<T> & v )
 	typename list<T>::const_iterator e_it = v.end();
 
 	std::cout << "[ ";
-	for ( /*empty*/; b_it != e_it; ++b_it )
+	for ( /* EMPTY */; b_it != e_it; ++b_it )
 		std::cout << *b_it << " ";
 	std::cout << "]\n";
 }

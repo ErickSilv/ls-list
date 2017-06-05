@@ -79,49 +79,59 @@ bool list<T>::const_iterator::operator!= ( const const_iterator & rhs ) const
 template <typename T>
 T & list<T>::iterator::operator*()
 {
-    
+    // Verifica se o ponteiro é nulo
+    assert(const_iterator::current != nullptr);
+
+    // Caso não seja nulo, retorna o campo DATA do nó apontado pelo const_iterator
+    return const_iterator::current->data;
 }
 
 // Operator++ (++iterator)
 template <typename T>
 typename list<T>::iterator & list<T>::iterator::operator++()
 {
-    
+    const_iterator::current = const_iterator::current->next;
+	return *this;
 }
 
 // Operator++ (iterator++)
 template <typename T>
 typename list<T>::iterator list<T>::iterator::operator++( int )
 {
-    
+    auto temp = *this;
+	const_iterator::current = const_iterator::current->next;
+	return temp;
 }
 
 // Operator-- (--iterator)
 template <typename T>
 typename list<T>::iterator & list<T>::iterator::operator--()
 {
-    
+    const_iterator::current = const_iterator::current->prev;
+	return *this;
 }
 
 // Operator-- (iterator--)
 template <typename T>
 typename list<T>::iterator list<T>::iterator::operator--( int )
 {
-    
+    auto temp = *this;
+	const_iterator::current = const_iterator::current->prev;
+	return temp;
 }
 
 // Operator==
 template <typename T>
 bool list<T>::iterator::operator== ( iterator & rhs ) const
 {
-    return (current == rhs.current);
+    return (const_iterator::current == rhs.current);
 }
 
 // Operator!=
 template <typename T>
 bool list<T>::iterator::operator!= ( iterator & rhs ) const
 {
-    return (current != rhs.current);
+    return (const_iterator::current != rhs.current);
 }
 
 // =========== LIST THINGS ===========

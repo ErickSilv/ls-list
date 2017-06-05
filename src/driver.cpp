@@ -5,7 +5,7 @@
 */
 
 // Quick compilation
-// g++ src/list.cpp src/driver.cpp -o bin/list -I include -Wall -std=c++11 
+// g++ src/driver.cpp -o bin/list -I include -Wall -std=c++11 
 
 #include <iostream>
 
@@ -16,7 +16,6 @@ using namespace ls;
 int main()
 {
     // Criando nova lista vazia
-    // :: ERRO: REFERÊNCIA INDEFINIDA ::
     list<int> listaInteiros;
 
     std::cout << "Hello, World!" << std::endl;

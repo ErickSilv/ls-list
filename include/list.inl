@@ -426,7 +426,17 @@ typename list<T>::const_iterator list<T>::cend() const
 template <typename T>
 typename list<T>::iterator list<T>::insert( typename list<T>::iterator pos , const T & value )
 {
+    // Cria um novo nó a ser inserido
+    Node * n_node = new Node(value, pos.current->prev, pos.current);
 
+    // Atualiza as referências da lista para incluirem o novo nó
+    (pos.current->prev)->next = n_node;
+    pos.current->prev = n_node;
+
+    // Atualiza o tamanho da lista
+    m_size++;
+
+    return list<T>::iterator(n_node);
 }
 
 template <typename T>

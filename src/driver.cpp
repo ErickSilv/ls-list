@@ -17,8 +17,8 @@ using namespace ls;
 template <typename T>
 void print( list<T> & v )
 {
-	list<T>::const_iterator b_it = v.begin();
-	list<T>::const_iterator e_it = v.end();
+	typename list<T>::const_iterator b_it = v.begin();
+	typename list<T>::const_iterator e_it = v.end();
 
 	std::cout << "[ ";
 	for ( /*empty*/; b_it != e_it; ++b_it )

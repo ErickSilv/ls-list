@@ -327,13 +327,13 @@ void list<T>::push_back( const T & value )
 template <typename T>
 void list<T>::pop_front()
 {
-    
+    erase( begin() );
 }
 
 template <typename T>
 void list<T>::pop_back()
 {
-    
+    erase( end() );
 }
 
 template <typename T>
@@ -345,7 +345,7 @@ const T & list<T>::front() const
 template <typename T>
 const T & list<T>::back() const
 {
-    
+    return m_tail->prev->data;
 }
 
 template <typename T>

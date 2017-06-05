@@ -15,22 +15,27 @@ namespace ls
 		// Basic definitions
 		using size_type = std::size_t;
 
-		// Node type definition
 		private:
+			/*!	Declaration of a node struct
+			* @attribute data Stores a T type value in the node
+			* @attribute prev is a pointer to the previous node. 
+			* @attribute next is a pointer to next next node. 
+			*/
 			struct Node
 			{
-				T data;      // Data field
-				Node *prev;  // Pointer to the previous node on the list
-				Node *next;  // Pointer to the next node on the list
+				T data;
+				Node *prev;
+				Node *next;
 
-				// Basic constructor
-				Node( const T & d = T() , Node * p = nullptr , Node * n = nullptr) 
-				    : data ( d ) , prev ( p ) , next ( n ) { /* Empty */ };
+				// Default constructor without arguments
+				Node( const T & d_ = T() , Node * p_ = nullptr , Node * n_ = nullptr) 
+				    : data ( d_ ) , prev ( p_ ) , next ( n_ ) { /* Empty */ };
 
 			};
 
-		// Iterator and ConstIterator definitions
 		public:
+			/*! Declaration of a const_iterator class
+		 	*/
 			class const_iterator
 			{
 				protected:
@@ -39,7 +44,7 @@ namespace ls
 
 				public:
 					const_iterator();
-					const_iterator( Node * p ) : current( p ) { /* Empty */ };
+					const_iterator( Node * p_ ) : current( p_ ) { /* Empty */ };
 
 					const T & operator*() const;
 					const_iterator & operator++();    // ++it;
@@ -51,6 +56,8 @@ namespace ls
 					bool operator!= ( const const_iterator & rhs ) const;
 			};
 
+			/*! Declaration of a iterator class as a const_iterator instance.
+		 	*/
 			class iterator : public const_iterator
 			{
 				protected:
@@ -58,7 +65,7 @@ namespace ls
 
 				public:
 					iterator( ) : const_iterator() { /* Empty */ }
-					iterator( Node *p ) : const_iterator( p ) { /* Empty */ };
+					iterator( Node *p_ ) : const_iterator( p_ ) { /* Empty */ };
 
 					T & operator*();
 					iterator & operator++();    // ++it;
@@ -70,7 +77,11 @@ namespace ls
 					bool operator!= ( iterator & rhs ) const;
 			};
 
-		// Private atributes
+		/*! Private attributes of a list class
+		 * @attribute m_size size of the list
+		 * @attribute m_head pointer to the beginning node of the list.
+		 * @attribute m_tail pointer to the ending node of the list.
+		 */
 		private:
 			size_type m_size;
 			Node *m_head;
@@ -133,7 +144,6 @@ namespace ls
 			void assign( InItr first, InItr last );
 			void assign( std::initializer_list<T> ilist );
 
-			
 	};	
 
 }

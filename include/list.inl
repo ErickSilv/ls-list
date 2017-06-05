@@ -4,6 +4,8 @@
  * Implementation of the List ADT using doubly linked list
 */
 
+#include <cassert>
+
 #include "list.h"
 
 using namespace ls;
@@ -15,51 +17,59 @@ using namespace ls;
 template <typename T>
 const T & list<T>::const_iterator::operator*() const
 {
-    
+    // Verifica se o ponteiro é nulo
+    assert(current != nullptr);
+
+    // Caso não seja nulo, retorna o campo DATA do nó apontado pelo const_iterator
+    return current->data;
 }
 
 // Operator++ (++const_iterator)
 template <typename T>
 typename list<T>::const_iterator & ls::list<T>::const_iterator::operator++()
 {
-    
+    current = current->next;
+	return *this;
 }
 
 // Operator++ (const_iterator++)
 template <typename T>
 typename list<T>::const_iterator ls::list<T>::const_iterator::operator++( int )
 {
-    
+    auto temp = *this;
+    current = current->next;
+	return temp;
 }
 
 // Operator-- (--const_iterator)
 template <typename T>
 typename list<T>::const_iterator & ls::list<T>::const_iterator::operator--()
 {
-    
+    current = current->prev;
+	return *this;
 }
 
 // Operator-- (const_iterator--)
 template <typename T>
 typename list<T>::const_iterator ls::list<T>::const_iterator::operator--( int )
 {
-    
+    auto temp = *this;
+    current = current->prev;
+	return temp;
 }
 
 // Operator==
 template <typename T>
 bool list<T>::const_iterator::operator== ( const const_iterator & rhs ) const
 {
-    // STUB IMPLEMENTATION
-    return true;
+    return (current == rhs.current);
 }
 
 // Operator!=
 template <typename T>
 bool list<T>::const_iterator::operator!= ( const const_iterator & rhs ) const
 {
-    // STUB IMPLEMENTATION
-    return true;
+    return (current != rhs.current);
 }
 
 // =========== ITERATOR THINGS ===========
@@ -104,21 +114,19 @@ typename list<T>::iterator list<T>::iterator::operator--( int )
 template <typename T>
 bool list<T>::iterator::operator== ( iterator & rhs ) const
 {
-    // STUB IMPLEMENTATION
-    return true;
+    return (current == rhs.current);
 }
 
 // Operator!=
 template <typename T>
 bool list<T>::iterator::operator!= ( iterator & rhs ) const
 {
-    // STUB IMPLEMENTATION
-    return true;
+    return (current != rhs.current);
 }
 
 // =========== LIST THINGS ===========
 
-// >> list constructors
+// >> list constructors 
 template <typename T>
 list<T>::list() 
     : m_size( 0 )

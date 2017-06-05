@@ -8,6 +8,7 @@
 // g++ src/driver.cpp -o bin/list -I include -Wall -std=c++11 
 
 #include <iostream>
+#include <cassert>
 
 #include "list.h"
 
@@ -16,8 +17,17 @@ using namespace ls;
 int main()
 {
     // Criando nova lista vazia
-    list<int> listaInteiros;
+    list<int> listaInteiros = { 2 , 5 , 7 , 8 , 9 , 11 , 15 };
 
-    std::cout << "Hello, World!" << std::endl;
+    assert(listaInteiros.front() == 2);
+
+    listaInteiros.erase( listaInteiros.begin() );
+
+    assert(listaInteiros.front() == 5);
+
+    assert(listaInteiros.size() == 6);
+
+    std::cout << ">>> FUNCIONA =D" << std::endl;
+
     return 0;
 }

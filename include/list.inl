@@ -281,7 +281,7 @@ typename list<T>::size_type list<T>::size() const
 template <typename T>
 void list<T>::clear()
 {
-    // :: REQUIRES ATENTION :: 
+    // :: REQUIRES ATENTION ::
 }
 
 template <typename T>
@@ -333,7 +333,7 @@ void list<T>::pop_back()
 template <typename T>
 const T & list<T>::front() const
 {
-    
+    return m_head->next->data;
 }
 
 template <typename T>
@@ -438,15 +438,15 @@ typename list<T>::iterator list<T>::erase( typename list<T>::iterator pos )
     if(empty())
 		throw std::out_of_range("[erase()] Cannot remove element from an empty list.");
 
-	auto after(pos.m_ptr->next );
+	auto after(pos.current->next );
 
     // Remove o nó da lista
     // :: Atualiza PREV e NEXT dos nós seguinte e anterior, respectivamente ::
-	after->prev = pos.m_ptr->prev;
-	pos.m_ptr->prev->next = after;
+	after->prev = pos.current->prev;
+	pos.current->prev->next = after;
 
     // Apaga o nó (já removido da lista)
-	delete pos.m_ptr;
+	delete pos.current;
 
     // Atualiza o tamanho da lista
 	m_size--;
@@ -494,17 +494,17 @@ typename list<T>::const_iterator list<T>::erase( typename list<T>::const_iterato
 {
     // Verifica se a lista está vazia
     if(empty())
-		throw std::out_of_range("[erase()] Cannot remove element from an empty list.");
+		throw std::out_of_range("Se lasque.");
 
-	auto after(pos.m_ptr->next );
+	auto after( pos.current->next );
 
     // Remove o nó da lista
     // :: Atualiza PREV e NEXT dos nós seguinte e anterior, respectivamente ::
-	after->prev = pos.m_ptr->prev;
-	pos.m_ptr->prev->next = after;
+	after->prev = pos.current->prev;
+	pos.current->prev->next = after;
 
     // Apaga o nó (já removido da lista)
-	delete pos.m_ptr;
+	delete pos.current;
 
     // Atualiza o tamanho da lista
 	m_size--;
@@ -518,7 +518,7 @@ typename list<T>::const_iterator list<T>::erase( typename list<T>::const_iterato
 {
     // Verifica se a lista está vazia
     if(empty())
-		throw std::out_of_range("[erase()] Cannot remove element from an empty list.");
+		throw std::out_of_range("Se lasque.");
 
     // Remove os elementos do intervalo
     for ( /* EMPTY */ ; first < last ; first++ )

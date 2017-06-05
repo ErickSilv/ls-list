@@ -275,33 +275,47 @@ list<T> & list<T>::list::operator=( std::initializer_list<T> ilist )
 template <typename T>
 typename list<T>::size_type list<T>::size() const
 {
-    // STUB IMPLEMENTATION
-    return 0;
+    return m_size;
 }
 
 template <typename T>
 void list<T>::clear()
 {
-    
+    // :: REQUIRES ATENTION :: 
 }
 
 template <typename T>
 bool list<T>::empty()
 {
-    // STUB IMPLEMENTATION
-    return true;
+    return (m_head->next == m_tail && m_tail->prev == m_head && m_size == 0);
 }
 
 template <typename T>
 void list<T>::push_front( const T & value )
 {
+    // Cria um novo nó
+    Node * n_node = new Node(value, m_head, m_head->next);
 
+    // Atualiza os apontadores da lista
+    m_head->next->prev = n_node;
+	m_head->next = n_node;
+
+    // Atualiza o tamanho da lista
+    m_size++;
 }
 
 template <typename T>
 void list<T>::push_back( const T & value )
 {
-    
+    // Cria um novo nó
+    Node * n_node = new Node(value, m_tail->prev, m_tail);
+
+    // Atualiza os apontadores da lista
+    m_tail->prev->next = n_node;
+	m_tail->prev = n_node;
+
+    // Atualiza o tamanho da lista
+    m_size++;
 }
 
 template <typename T>
@@ -376,25 +390,25 @@ bool operator!=( const ls::list<T> & lhs, const ls::list<T> & rhs )
 template <typename T>
 typename list<T>::iterator list<T>::begin()
 {
-
+    return list<T>::iterator(m_head->next);
 }
 
 template <typename T>
 typename list<T>::const_iterator list<T>::cbegin() const
 {
-
+    return list<T>::const_iterator(m_head->next);
 }
 
 template <typename T>
 typename list<T>::iterator list<T>::end()
 {
-
+    return list<T>::iterator(m_tail);
 }
 
 template <typename T>
 typename list<T>::const_iterator list<T>::cend() const
 {
-
+    return list<T>::const_iterator(m_tail);
 }
 
 // >> list iterator insertion operations
@@ -420,13 +434,39 @@ typename list<T>::iterator list<T>::insert( list<T>::iterator pos , std::initial
 template <typename T>
 typename list<T>::iterator list<T>::erase( typename list<T>::iterator pos )
 {
+    // Verifica se a lista está vazia
+    if(empty())
+		throw std::out_of_range("[erase()] Cannot remove element from an empty list.");
 
+	auto after(pos.m_ptr->next );
+
+    // Remove o nó da lista
+    // :: Atualiza PREV e NEXT dos nós seguinte e anterior, respectivamente ::
+	after->prev = pos.m_ptr->prev;
+	pos.m_ptr->prev->next = after;
+
+    // Apaga o nó (já removido da lista)
+	delete pos.m_ptr;
+
+    // Atualiza o tamanho da lista
+	m_size--;
+
+    // Retorna um iterator para o elemento seguinte a POS original
+	return list<T>::iterator(after);
 }
 
 template <typename T>
 typename list<T>::iterator list<T>::erase( typename list<T>::iterator first , typename list<T>::iterator last )
 {
+    // Verifica se a lista está vazia
+    if(empty())
+		throw std::out_of_range("[erase()] Cannot remove element from an empty list.");
 
+    // Remove os elementos do intervalo
+    for ( /* EMPTY */ ; first < last ; first++ )
+        erase( first.current->next );
+
+    return last;
 }
 
 // >> list const-iterator insertion operations
@@ -452,13 +492,39 @@ typename list<T>::const_iterator list<T>::insert( typename list<T>::const_iterat
 template <typename T>
 typename list<T>::const_iterator list<T>::erase( typename list<T>::const_iterator pos )
 {
+    // Verifica se a lista está vazia
+    if(empty())
+		throw std::out_of_range("[erase()] Cannot remove element from an empty list.");
 
+	auto after(pos.m_ptr->next );
+
+    // Remove o nó da lista
+    // :: Atualiza PREV e NEXT dos nós seguinte e anterior, respectivamente ::
+	after->prev = pos.m_ptr->prev;
+	pos.m_ptr->prev->next = after;
+
+    // Apaga o nó (já removido da lista)
+	delete pos.m_ptr;
+
+    // Atualiza o tamanho da lista
+	m_size--;
+
+    // Retorna um iterator para o elemento seguinte a POS original
+	return list<T>::const_iterator(after);
 }
 
 template <typename T>
 typename list<T>::const_iterator list<T>::erase( typename list<T>::const_iterator first , typename list<T>::const_iterator last )
 {
+    // Verifica se a lista está vazia
+    if(empty())
+		throw std::out_of_range("[erase()] Cannot remove element from an empty list.");
 
+    // Remove os elementos do intervalo
+    for ( /* EMPTY */ ; first < last ; first++ )
+        erase( first.current->next );
+
+    return last;
 }
 
 // >> list assign operations

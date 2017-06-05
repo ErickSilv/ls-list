@@ -5,6 +5,7 @@
 */
 
 #include <cassert>
+#include <stdexcept>
 
 #include "list.h"
 
@@ -192,7 +193,7 @@ list<T>::list( InputIt first , InputIt last )
 	m_tail->prev = m_head;
 
     // Insere todos os elementos do intervalo na lista usando a função push_back()
-    for ( /* EMPTY */ ; first < last ; first++ )
+    for ( /* EMPTY */ ; first != last ; first++ )
 		push_back( *first );
 
 }
@@ -211,7 +212,7 @@ list<T>::list( const list & other )
     auto last ( other.cend()   );
 
     // Copia todos os elementos da lista passada como parâmetro para a lista atual
-    for ( /* EMPTY */ ; first < last ; first++ )
+    for ( /* EMPTY */ ; first != last ; first++ )
         push_back( *first );
 }
 
@@ -229,7 +230,7 @@ list<T>::list( std::initializer_list<T> ilist )
     auto last ( ilist.end()   );
 
     // Copia todos os elementos de ilist para a lista atual
-    for ( /* EMPTY */ ; first < last ; first++ )
+    for ( /* EMPTY */ ; first != last ; first++ )
         push_back( *first );
 
 }
@@ -254,7 +255,7 @@ list<T> & list<T>::list::operator=( const list& other )
     auto last ( other.cend()   );
 
     // Preenche a lista com o conteúdo de other
-    for ( /* EMPTY */ ; first < last ; first++ )
+    for ( /* EMPTY */ ; first != last ; first++ )
         push_back( *first );
 }
 
@@ -267,7 +268,7 @@ list<T> & list<T>::list::operator=( std::initializer_list<T> ilist )
     auto last ( ilist.end()   );
 
     // Preenche a lista com o conteúdo de ilist
-    for ( /* EMPTY */ ; first < last ; first++ )
+    for ( /* EMPTY */ ; first != last ; first++ )
         push_back( *first );
 }
 
@@ -281,7 +282,12 @@ typename list<T>::size_type list<T>::size() const
 template <typename T>
 void list<T>::clear()
 {
-    // :: REQUIRES ATENTION ::
+    // Percorrer a lista removendo seus nós
+    auto first( begin() );
+    auto last ( end() );
+
+    for ( /* EMPTY */ ; first != last ; first++)
+        erase( first );
 }
 
 template <typename T>
@@ -463,7 +469,7 @@ typename list<T>::iterator list<T>::erase( typename list<T>::iterator first , ty
 		throw std::out_of_range("[erase()] Cannot remove element from an empty list.");
 
     // Remove os elementos do intervalo
-    for ( /* EMPTY */ ; first < last ; first++ )
+    for ( /* EMPTY */ ; first != last ; first++ )
         erase( first.current->next );
 
     return last;
@@ -521,7 +527,7 @@ typename list<T>::const_iterator list<T>::erase( typename list<T>::const_iterato
 		throw std::out_of_range("Se lasque.");
 
     // Remove os elementos do intervalo
-    for ( /* EMPTY */ ; first < last ; first++ )
+    for ( /* EMPTY */ ; first != last ; first++ )
         erase( first.current->next );
 
     return last;

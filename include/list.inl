@@ -443,13 +443,20 @@ template <typename T>
 template <typename InItr>
 typename list<T>::iterator list<T>::insert( typename list<T>::iterator pos , InItr first , InItr last )
 {
-    
+    // Insere todos os elementos do intervalo na lista
+    for ( /* EMPTY */ ; first != last ; first++)
+        insert( pos, *first );
+
+    return pos;
 }
 
 template <typename T>
 typename list<T>::iterator list<T>::insert( list<T>::iterator pos , std::initializer_list<T> ilist )
 {
+    for(const auto &e : ilist)
+		insert(pos, e);
 
+    return list<T>::iterator(pos.current);
 }
 
 template <typename T>
@@ -491,23 +498,27 @@ typename list<T>::iterator list<T>::erase( typename list<T>::iterator first , ty
 }
 
 // >> list const-iterator insertion operations
+
+// :: COMO REALIZAR ALTERAÇÕES EM UM ITERADOR CONSTANTE?? ::
 template <typename T>
 typename list<T>::const_iterator list<T>::insert( typename list<T>::const_iterator pos , const T & value )
 {
-
+    // :: SOLVE THIS ::
 }
 
+// :: COMO REALIZAR ALTERAÇÕES EM UM ITERADOR CONSTANTE?? ::
 template <typename T>
 template <typename InItr>
 typename list<T>::const_iterator list<T>::insert( typename list<T>::const_iterator pos , InItr first , InItr last )
 {
-
+    // :: SOLVE THIS ::
 }
 
+// :: COMO REALIZAR ALTERAÇÕES EM UM ITERADOR CONSTANTE?? ::
 template <typename T>
 typename list<T>::const_iterator list<T>::insert( typename list<T>::const_iterator pos , std::initializer_list<T> ilist )
 {
-
+    // :: SOLVE THIS ::
 }
 
 template <typename T>

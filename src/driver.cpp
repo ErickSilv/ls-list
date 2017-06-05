@@ -33,6 +33,11 @@ int main()
 	std::cout << "Lista Vazia" << std::endl;
 	print( listaVazia );
 
+	// Inserindo elementos na lista anteriormente vazia
+	list<int> listToInsertInto = { 0 , 5 , 10 , 15 , 20 };
+	list<int> listToBeInserted = { 1 , 2 ,  3 ,  4 , 5  };
+	listToInsertInto.insert( listToInsertInto.begin(), listToBeInserted.begin() , listToBeInserted.end() ); 
+	print( listToInsertInto );
 
     // Criando nova lista vazia
     list<int> listaInteiros = { 2 , 5 , 7 , 8 , 9 , 11 , 15 };

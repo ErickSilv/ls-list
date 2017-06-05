@@ -90,7 +90,7 @@ namespace ls
 			list& operator=( std::initializer_list<T> ilist );
 
 			// Methods
-			size_type size () const;
+			size_type size() const;
 			void clear();
 			bool empty();
 			void push_front( const T & value );
@@ -112,31 +112,32 @@ namespace ls
 			iterator end();
 			const_iterator cend() const;
 
+			// Iterator Insertion Operations
 			iterator insert( iterator pos , const T & value );
 			template <typename InItr>
 			iterator insert( iterator pos , InItr first , InItr last );
 			iterator insert( iterator pos , std::initializer_list<T> ilist );
 			iterator erase( iterator pos );
 			iterator erase( iterator first , iterator last );
-			template <typename InItr>
-			void assign( InItr first, InItr last );
-			void assign( std::initializer_list<T> ilist );
 
+			// Const-iterator Insertion Operations
 			const_iterator insert( const_iterator pos , const T & value );
 			template <typename InItr>
 			const_iterator insert( const_iterator pos , InItr first , InItr last );
 			const_iterator insert( const_iterator pos , std::initializer_list<T> ilist );
 			const_iterator erase( const_iterator pos );
-			const_iterator erase( const_iterator first , iterator last );
+			const_iterator erase( const_iterator first , const_iterator last );
+
+			// Assign Operations
+			template <typename InItr>
+			void assign( InItr first, InItr last );
+			void assign( std::initializer_list<T> ilist );
+
+			
 	};	
 
 }
 
-template <typename T>
-bool operator==( const ls::list<T> & lhs, const ls::list<T> & rhs );
-
-template <typename T>
-bool operator!=( const ls::list<T> & lhs, const ls::list<T> & rhs );
+#include "list.inl"
 
 #endif
-	

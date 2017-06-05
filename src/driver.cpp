@@ -11,8 +11,14 @@
 
 #include "list.h"
 
+using namespace ls;
+
 int main()
 {
+    // Criando nova lista vazia
+    // :: ERRO: REFERÊNCIA INDEFINIDA ::
+    list<int> listaInteiros;
+
     std::cout << "Hello, World!" << std::endl;
     return 0;
 }

@@ -173,6 +173,7 @@ list<T>::list( InputIt first , InputIt last )
     m_head->next = m_tail;
 	m_tail->prev = m_head;
 
+    // Insere todos os elementos do intervalo na lista usando a função push_back()
     for ( /* EMPTY */ ; first < last ; first++ )
 		push_back( *first );
 
@@ -180,13 +181,38 @@ list<T>::list( InputIt first , InputIt last )
 
 template <typename T>
 list<T>::list( const list & other )
+    : m_size( 0 )
+    , m_head( new Node() )
+    , m_tail( new Node() )
 {
+    // Configura as referências de prev e next do HEAD e TAIL
+    m_head->next = m_tail;
+	m_tail->prev = m_head;
 
+    auto first( other.cbegin() );
+    auto last ( other.cend()   );
+
+    // Copia todos os elementos da lista passada como parâmetro para a lista atual
+    for ( /* EMPTY */ ; first < last ; first++ )
+        push_back( *first );
 }
 
 template <typename T>
 list<T>::list( std::initializer_list<T> ilist )
+    : m_size( 0 )
+    , m_head( new Node() )
+    , m_tail( new Node() )
 {
+    // Configura as referências de prev e next do HEAD e TAIL
+    m_head->next = m_tail;
+	m_tail->prev = m_head;
+
+    auto first( ilist.begin() );
+    auto last ( ilist.end()   );
+
+    // Copia todos os elementos de ilist para a lista atual
+    for ( /* EMPTY */ ; first < last ; first++ )
+        push_back( *first );
 
 }
 
@@ -201,27 +227,30 @@ list<T>::~list()
 template <typename T>
 list<T> & list<T>::list::operator=( const list& other )
 {
+    // Verifica se as listas já são iguais
+    if (this == &other) return *this;
 
+    clear();
+
+    auto first( other.cbegin() );
+    auto last ( other.cend()   );
+
+    // Preenche a lista com o conteúdo de other
+    for ( /* EMPTY */ ; first < last ; first++ )
+        push_back( *first );
 }
 
 template <typename T>
 list<T> & list<T>::list::operator=( std::initializer_list<T> ilist )
 {
-    
-}
+    clear();
 
-template <typename T>
-bool operator==( const ls::list<T> & lhs, const ls::list<T> & rhs )
-{
-    // STUB IMPLEMENTATION
-    return true;
-}
+    auto first( ilist.begin() );
+    auto last ( ilist.end()   );
 
-template <typename T>
-bool operator!=( const ls::list<T> & lhs, const ls::list<T> & rhs )
-{
-    // STUB IMPLEMENTATION
-    return true;
+    // Preenche a lista com o conteúdo de ilist
+    for ( /* EMPTY */ ; first < last ; first++ )
+        push_back( *first );
 }
 
 // >> list methods
@@ -285,6 +314,44 @@ template <typename T>
 void list<T>::assign( const T & value )
 {
     
+}
+
+// >> list comparison operators
+template <typename T>
+bool operator==( const ls::list<T> & lhs, const ls::list<T> & rhs )
+{
+    if( lhs.size() != rhs.size() ) 
+        return false;
+    else
+    {
+        auto lhs_it( lhs.cbegin() );
+		auto rhs_it( rhs.cbegin() );
+
+        for ( /* EMPTY */ ; lhs_it != lhs.cend(); lhs_it++, rhs_it++ )
+			if( *lhs_it != *rhs_it ) 
+                return false;
+    }
+
+    return true;
+
+}
+
+template <typename T>
+bool operator!=( const ls::list<T> & lhs, const ls::list<T> & rhs )
+{
+    if( lhs.size() != rhs.size() ) 
+        return true;
+    else
+    {
+        auto lhs_it( lhs.cbegin() );
+		auto rhs_it( rhs.cbegin() );
+
+        for ( /* EMPTY */ ; lhs_it != lhs.cend(); lhs_it++, rhs_it++ )
+			if( *lhs_it != *rhs_it ) 
+                return true;
+    }
+
+    return false;
 }
 
 // >> list iterator-related operations

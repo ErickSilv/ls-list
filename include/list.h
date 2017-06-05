@@ -101,7 +101,7 @@ namespace ls
 			const T & back() const;
 			void assign( const T & value );
 
-			// Non-constructor Operators
+			// Comparison Operators
 			// :: ONLY DEFINED OUTSIDE THE CLASS ::
 			// bool operator==( const ls::list<T> & lhs, const ls::list<T> & rhs );
 			// bool operator!=( const ls::list<T> & lhs, const ls::list<T> & rhs );

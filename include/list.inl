@@ -351,7 +351,12 @@ const T & list<T>::back() const
 template <typename T>
 void list<T>::assign( const T & value )
 {
-    
+    // Percorrer a lista removendo seus nós
+    auto first( begin() );
+    auto last ( end() );
+
+    for ( /* EMPTY */ ; first != last ; first++)
+        *first = value;
 }
 
 // >> list comparison operators
@@ -442,7 +447,7 @@ typename list<T>::iterator list<T>::erase( typename list<T>::iterator pos )
 {
     // Verifica se a lista está vazia
     if(empty())
-		throw std::out_of_range("[erase()] Cannot remove element from an empty list.");
+		throw std::out_of_range("[erase()] The list is empty.");
 
 	auto after(pos.current->next );
 
@@ -466,7 +471,7 @@ typename list<T>::iterator list<T>::erase( typename list<T>::iterator first , ty
 {
     // Verifica se a lista está vazia
     if(empty())
-		throw std::out_of_range("[erase()] Cannot remove element from an empty list.");
+		throw std::out_of_range("[erase()] The list is empty.");
 
     // Remove os elementos do intervalo
     for ( /* EMPTY */ ; first != last ; first++ )
@@ -500,7 +505,7 @@ typename list<T>::const_iterator list<T>::erase( typename list<T>::const_iterato
 {
     // Verifica se a lista está vazia
     if(empty())
-		throw std::out_of_range("Se lasque.");
+		throw std::out_of_range("[erase()] The list is empty.");
 
 	auto after( pos.current->next );
 
@@ -524,7 +529,7 @@ typename list<T>::const_iterator list<T>::erase( typename list<T>::const_iterato
 {
     // Verifica se a lista está vazia
     if(empty())
-		throw std::out_of_range("Se lasque.");
+		throw std::out_of_range("[erase()] The list is empty.");
 
     // Remove os elementos do intervalo
     for ( /* EMPTY */ ; first != last ; first++ )
@@ -539,11 +544,21 @@ template <typename T>
 template <typename InItr>
 void list<T>::assign( InItr first, InItr last )
 {
+    // Remove todos os elementos da lista
+    clear();
 
+    // Insere todos os elementos do intervalo first-last
+    for ( /* EMPTY */ ; first != last ; first++ )
+        push_back( first );
 }
 
 template <typename T>
 void list<T>::assign( std::initializer_list<T> ilist )
 {
+    // Remove todos os elementos da lista
+    clear();
 
+    // Insere todos os elementos de ilist
+    for(const auto &e : ilist)
+        push_back( e);
 }

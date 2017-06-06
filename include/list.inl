@@ -333,7 +333,8 @@ void list<T>::pop_front()
 template <typename T>
 void list<T>::pop_back()
 {
-    erase( end() );
+    auto last ( m_tail->prev );
+    erase( const_iterator( last ) );
 }
 
 template <typename T>

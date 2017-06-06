@@ -338,15 +338,27 @@ void list<T>::pop_back()
 }
 
 template <typename T>
+T & list<T>::front()
+{
+    return (m_head->next)->data;
+}
+
+template <typename T>
+T & list<T>::back()
+{
+    return (m_tail->prev)->data;
+}
+
+template <typename T>
 const T & list<T>::front() const
 {
-    return m_head->next->data;
+    return (m_head->next)->data;
 }
 
 template <typename T>
 const T & list<T>::back() const
 {
-    return m_tail->prev->data;
+    return (m_tail->prev)->data;
 }
 
 template <typename T>
@@ -571,7 +583,7 @@ void list<T>::assign( InItr first, InItr last )
 
     // Insere todos os elementos do intervalo first-last
     for ( /* EMPTY */ ; first != last ; first++ )
-        push_back( first );
+        push_back( *first );
 }
 
 template <typename T>
@@ -582,5 +594,5 @@ void list<T>::assign( std::initializer_list<T> ilist )
 
     // Insere todos os elementos de ilist
     for(const auto &e : ilist)
-        push_back( e);
+        push_back( e );
 }

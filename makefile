@@ -14,4 +14,4 @@ INCLUDE_PATH = include/
 BIN_NAME = ./bin/list
 
 list: $(SRC_PATH) $(INCLUDE_PATH)
-	$(CXX) $(COMPILE_FLAG) $(SRC_PATH) -I $(INCLUDE_PATH) -o $(BIN_NAME)
+	$(CXX) -Wall $(COMPILE_FLAG) $(SRC_PATH) -I $(INCLUDE_PATH) -o $(BIN_NAME)

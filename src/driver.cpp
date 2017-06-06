@@ -216,7 +216,7 @@ int main()
 
 
 
-	//Testes insert todos são testados, pois
+	//Testes insert //
 	{
 		std::cout << "\n>>> Inserindo elementos na lista anteriormente vazia <<< \n";
 		ls::list<int> listToInsertInto = { 0 , 5 , 10 , 15 , 20 };
@@ -235,10 +235,31 @@ int main()
 
 		std::cout << "\nTerceira Lista = [ 21, 22, 23, 24, 25, 26 ]";
 		listToInsertInto.insert( listToInsertInto.end(), { 21, 22, 23, 24, 25, 26 } );
-		std::cout << "\n Lista Final = "; 
+		std::cout << "\nLista Final = "; 
 		print ( listToInsertInto );
 
 	}
-	//Fim dos testes insert
+	//Fim dos testes insert //
+
+
+	//Testes erase //
+	{
+		std::cout << "\n>>> Erase testes <<< \n";
+		ls::list<int> listToBeErased = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+
+		std::cout << "\nErase first element \n";
+		listToBeErased.erase( listToBeErased.cbegin() );
+		std::cout << "Lista = ";
+		print( listToBeErased );
+		
+		std::cout << "\nErase all list by range\n";	
+		listToBeErased.erase( listToBeErased.cbegin(), listToBeErased.cend() );
+		std::cout << "Lista = ";
+		//assert( listToBeErased.empty() == true );	
+		print( listToBeErased );
+
+	}
+	//Fim dos testes erase //
+    
     return EXIT_SUCCESS;
 }

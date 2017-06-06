@@ -541,21 +541,27 @@ typename list<T>::const_iterator list<T>::erase( typename list<T>::const_iterato
     if(empty())
 		throw std::out_of_range("[erase()] The list is empty.");
 
-	auto after( pos.current->next );
+    if ( pos != end() )
+    {
+    	auto after( pos.current->next );
 
-    // Remove o nó da lista
-    // :: Atualiza PREV e NEXT dos nós seguinte e anterior, respectivamente ::
-	after->prev = pos.current->prev;
-	pos.current->prev->next = after;
+        // Remove o nó da lista
+        // :: Atualiza PREV e NEXT dos nós seguinte e anterior, respectivamente ::
+    	after->prev = pos.current->prev;
+    	pos.current->prev->next = after;
 
-    // Apaga o nó (já removido da lista)
-	delete pos.current;
+        // Apaga o nó (já removido da lista)
+    	delete pos.current;
 
-    // Atualiza o tamanho da lista
-	m_size--;
+        // Atualiza o tamanho da lista
+    	m_size--;
 
-    // Retorna um iterator para o elemento seguinte a POS original
-	return list<T>::const_iterator(after);
+        // Retorna um iterator para o elemento seguinte a POS original
+    	return const_iterator( after );
+        
+    }
+
+    return const_iterator ( pos.current );
 }
 
 template <typename T>
@@ -567,7 +573,7 @@ typename list<T>::const_iterator list<T>::erase( typename list<T>::const_iterato
 
     // Remove os elementos do intervalo
     for ( /* EMPTY */ ; first != last ; first++ )
-        erase( first.current->next );
+        erase( const_iterator ( first.current ) );
 
     return last;
 }
